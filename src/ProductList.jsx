@@ -268,23 +268,26 @@ const handlePlantsClick = (e) => {
         </div>
         {!showCart? (
         <div className="product-grid">
-            <div className='product-list'>
-            {plantsArray.map(
-                (category, categoryIndex) =>
-                    category.plants.map((plant, plantIndex) => (
-                        <div className='product-card'> 
-                            <div className='product-title' key={`${categoryIndex}-${plantIndex}`}>{plant.name}</div>
-                            <div className='product-image img'>
-                                <img src={plant.image} alt={plant.name} />
-                            </div>
-                            <div className='product-price' key={`${categoryIndex}-${plantIndex}`}>{plant.cost}</div>
-                            <div key={`${categoryIndex}-${plantIndex}` }>{plant.description}</div>
-                            <button className='product-button'> Add to Cart</button>
+            
+                {plantsArray.map((category, categoryIndex) =>
+                    <div>
+                        <h1 className='plant_heading'>{category.category}</h1>
+                        <div className='product-list'>
+                            {category.plants.map((plant, plantIndex) => (
+                                <div className='product-card'> 
+                                    <div className='product-title' key={`${categoryIndex}-${plantIndex}`}>{plant.name}</div>
+                                    <div>
+                                        <img className='product-image img' src={plant.image} alt={plant.name} />
+                                    </div>
+                                    <div className='product-price' key={`${categoryIndex}-${plantIndex}`}>{plant.cost}</div>
+                                    <div key={`${categoryIndex}-${plantIndex}` }>{plant.description}</div>
+                                    <button className='product-button'> Add to Cart</button>
+                                </div>
+                            ))};
                         </div>
-                    )
-                )
-            )}
-            </div>
+                    </div>
+                )};
+        
         </div>
  ) :  (
     <CartItem onContinueShopping={handleContinueShopping}/>
