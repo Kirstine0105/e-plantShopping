@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from 'react-redux';
 function ProductList() {
     const [showCart, setShowCart] = useState(false); 
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
-    const [amount, setAmount] = useState(0);
     const [plantsAdded, setPlantsAdded] = useState(new Map());
 
     const plantsArray = [
@@ -253,77 +252,36 @@ function ProductList() {
     };
 
     const addToCart = (categoryIndex, plantIndex) =>{
-        const plant = plantsArray[categoryIndex].plants[plantIndex];
-    
-        // Create a new item object to add to the cart
-        const newItem = {
-            name: plant.name, // Unique plant name
-            cost: parseFloat(plant.cost.replace('$', '')), // Remove the dollar sign and parse the cost
-            quantity: 1, // Default quantity is 1 when adding a new item
-            description: plant.description,
-            imageUrl: plant.image,
-        };
-    
-        // Dispatch action to add the item to the cart
-        dispatch(addItem(newItem));
-
-        console.log('Current cart items:', cartItems);
+        if(!isPlantAdded(categoryIndex, plantIndex)){
             
-            /*
-            if(!isPlantAdded(categoryIndex,plantIndex)){
-                const plantName = plantsArray[categoryIndex].plants[plantIndex].name;
-                const priceString = plantsArray[categoryIndex].plants[plantIndex].cost;
-                const addedAmount = parseFloat(priceString.replace('$', ''));
-
-                console.log("Plant name: " + plantName);
-                console.log("Amount before: " + amount);
-                console.log("Amount inserted: " + addedAmount);
-                
-                setAmount(amount + addedAmount);
-                addPlant(plantName);
-
-                console.log("Amount after: " + amount);
-            }
-            else{
-                console.log ("plant is already added");
-            }
-            */
-   
-    }
-
-
-    // Function to add or update a plant's count in the Map
-    const addPlant = (plantName) => {
-        setPlantsAdded(() => {
+            const plant = plantsArray[categoryIndex].plants[plantIndex];
         
+            // Create a new item object to add to the cart
+            const newItem = {
+                name: plant.name, // Unique plant name
+                cost: parseFloat(plant.cost.replace('$', '')), // Remove the dollar sign and parse the cost
+                quantity: 1, // Default quantity is 1 when adding a new item
+                description: plant.description,
+                imageUrl: plant.image,
+            };
+        
+            // Dispatch action to add the item to the cart
+            dispatch(addItem(newItem));
 
-        // If the plant already exists, increment its count
-        if (plantsAdded.has(plantName)) {
-            plantsAdded.set(plantName, plantsAdded.get(plantName) + 1);
-        } else {
-            // If the plant doesn't exist, add it with count 1
-            plantsAdded.set(plantName, 1);
+            console.log('Current cart items:', cartItems);
+    
         }
-
-        // Log the updated Map to the console
-        console.log('Updated plants:', [...plantsAdded.entries()]);
         
-
-        return plantsAdded;
-        });
-    };
+    }
 
     const isPlantAdded = (categoryIndex, plantIndex) => {
         const plantName = plantsArray[categoryIndex].plants[plantIndex].name;
-
-        return plantsAdded.has(plantName);
+        return cartItems.some(item => item.name.toLowerCase() === plantName.toLowerCase());
     }
 
     const getNumberOfPlantsBought = () => {
-        const plants = Array.from(plantsAdded.values()).reduce((sum, value) => sum + value, 0);
-
-        console.log(plants); // Output will be the sum of all values
-        return plants
+        const Number = cartItems.reduce((total, item) => total + item.quantity, 0);
+        return Number;
     };
 
     const handleContinueShopping = (e) => {
