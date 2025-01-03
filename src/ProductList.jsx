@@ -282,11 +282,12 @@ function ProductList() {
         return plantsAdded;
         });
     };
-    
 
+    const isPlantAdded = (categoryIndex, plantIndex) => {
+        const plantName = plantsArray[categoryIndex].plants[plantIndex].name;
 
-
-
+        return plantsAdded.has(plantName);
+    }
 
 
     const handleContinueShopping = (e) => {
@@ -331,7 +332,7 @@ function ProductList() {
                                     </div>
                                     <div className='product-price' key={`${categoryIndex}-${plantIndex}`}>{plant.cost}</div>
                                     <div key={`${categoryIndex}-${plantIndex}` }>{plant.description}</div>
-                                    <button className='product-button' onClick={() => addToCart(categoryIndex, plantIndex)}>Add to Cart</button>
+                                    <button className={isPlantAdded(categoryIndex, plantIndex) ? 'product-button added-to-cart' : 'product-button'} onClick={() => addToCart(categoryIndex, plantIndex)}>Add to Cart</button>
                                 </div>
                             ))}
                         </div>
