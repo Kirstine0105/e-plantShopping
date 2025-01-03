@@ -247,18 +247,24 @@ function ProductList() {
     };
 
     const addToCart = (categoryIndex, plantIndex) =>{
-        const plantName = plantsArray[categoryIndex].plants[plantIndex].name;
-        const priceString = plantsArray[categoryIndex].plants[plantIndex].cost;
-        const addedAmount = parseFloat(priceString.replace('$', ''));
+        if(!isPlantAdded(categoryIndex,plantIndex)){
+            const plantName = plantsArray[categoryIndex].plants[plantIndex].name;
+            const priceString = plantsArray[categoryIndex].plants[plantIndex].cost;
+            const addedAmount = parseFloat(priceString.replace('$', ''));
 
-        console.log("Plant name: " + plantName);
-        console.log("Amount before: " + amount);
-        console.log("Amount inserted: " + addedAmount);
-        
-        setAmount(amount + addedAmount);
-        addPlant(plantName);
+            console.log("Plant name: " + plantName);
+            console.log("Amount before: " + amount);
+            console.log("Amount inserted: " + addedAmount);
+            
+            setAmount(amount + addedAmount);
+            addPlant(plantName);
 
-        console.log("Amount after: " + amount);
+            console.log("Amount after: " + amount);
+        }
+        else{
+            console.log ("plant is already added");
+        }
+   
     }
 
 
@@ -289,6 +295,12 @@ function ProductList() {
         return plantsAdded.has(plantName);
     }
 
+    const getNumberOfPlantsBought = () => {
+        const plants = Array.from(plantsAdded.values()).reduce((sum, value) => sum + value, 0);
+
+        console.log(plants); // Output will be the sum of all values
+        return plants
+    };
 
     const handleContinueShopping = (e) => {
         e.preventDefault();
@@ -311,7 +323,20 @@ function ProductList() {
                 </div>
                 <div style={styleObjUl}>
                     <div> <a href="#" onClick={(e) => handlePlantsClick(e)} style={styleA}>Plants</a></div>
-                    <div> <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}><h1 className='cart'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="68" width="68"><rect width="156" height="156" fill="none"></rect><circle cx="80" cy="216" r="12"></circle><circle cx="184" cy="216" r="12"></circle><path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8" fill="none" stroke="#faf9f9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" id="mainIconPathAttribute"></path></svg></h1></a></div>
+                    <div>
+                        <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}>
+                            <h1 className='cart'>
+                                
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="68" width="68">
+                                    <rect width="156" height="156" fill="none"></rect>
+                                    <circle cx="80" cy="216" r="12"></circle>
+                                    <circle cx="184" cy="216" r="12"></circle>
+                                    <path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8" fill="none" stroke="#faf9f9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" id="mainIconPathAttribute"></path>
+                                </svg> 
+                                <span className="cart_quantity_count">{getNumberOfPlantsBought()}</span>
+                            </h1>
+                        </a>
+                    </div>
                 </div>
             </div>
             {!showCart? (
@@ -332,7 +357,7 @@ function ProductList() {
                                     </div>
                                     <div className='product-price' key={`${categoryIndex}-${plantIndex}`}>{plant.cost}</div>
                                     <div key={`${categoryIndex}-${plantIndex}` }>{plant.description}</div>
-                                    <button className={isPlantAdded(categoryIndex, plantIndex) ? 'product-button added-to-cart' : 'product-button'} onClick={() => addToCart(categoryIndex, plantIndex)}>Add to Cart</button>
+                                    <button className={isPlantAdded(categoryIndex, plantIndex) ? 'product-button added-to-cart' : 'product-button'} onClick={() => addToCart(categoryIndex, plantIndex)}>{isPlantAdded(categoryIndex,plantIndex) ? "Added to Cart" : "Add to Cart"}</button>
                                 </div>
                             ))}
                         </div>
