@@ -1,6 +1,8 @@
 import React, { useState,useEffect } from 'react';
 import './ProductList.css'
 import CartItem from './CartItem';
+import { addItem, removeItem } from './CartSlice'; // Adjust the import path
+import { useSelector, useDispatch } from 'react-redux';
 function ProductList() {
     const [showCart, setShowCart] = useState(false); 
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
@@ -214,6 +216,10 @@ function ProductList() {
             ]
         }
     ];
+    const cartItems = useSelector(state => state.cart.items);
+
+
+    const dispatch = useDispatch();
 
     const styleObj={
         backgroundColor: '#4CAF50',
@@ -247,23 +253,41 @@ function ProductList() {
     };
 
     const addToCart = (categoryIndex, plantIndex) =>{
-        if(!isPlantAdded(categoryIndex,plantIndex)){
-            const plantName = plantsArray[categoryIndex].plants[plantIndex].name;
-            const priceString = plantsArray[categoryIndex].plants[plantIndex].cost;
-            const addedAmount = parseFloat(priceString.replace('$', ''));
+        const plant = plantsArray[categoryIndex].plants[plantIndex];
+    
+        // Create a new item object to add to the cart
+        const newItem = {
+            name: plant.name, // Unique plant name
+            cost: parseFloat(plant.cost.replace('$', '')), // Remove the dollar sign and parse the cost
+            quantity: 1, // Default quantity is 1 when adding a new item
+            description: plant.description,
+            imageUrl: plant.image,
+        };
+    
+        // Dispatch action to add the item to the cart
+        dispatch(addItem(newItem));
 
-            console.log("Plant name: " + plantName);
-            console.log("Amount before: " + amount);
-            console.log("Amount inserted: " + addedAmount);
+        console.log('Current cart items:', cartItems);
             
-            setAmount(amount + addedAmount);
-            addPlant(plantName);
+            /*
+            if(!isPlantAdded(categoryIndex,plantIndex)){
+                const plantName = plantsArray[categoryIndex].plants[plantIndex].name;
+                const priceString = plantsArray[categoryIndex].plants[plantIndex].cost;
+                const addedAmount = parseFloat(priceString.replace('$', ''));
 
-            console.log("Amount after: " + amount);
-        }
-        else{
-            console.log ("plant is already added");
-        }
+                console.log("Plant name: " + plantName);
+                console.log("Amount before: " + amount);
+                console.log("Amount inserted: " + addedAmount);
+                
+                setAmount(amount + addedAmount);
+                addPlant(plantName);
+
+                console.log("Amount after: " + amount);
+            }
+            else{
+                console.log ("plant is already added");
+            }
+            */
    
     }
 
