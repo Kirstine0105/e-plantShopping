@@ -260,7 +260,7 @@ function ProductList() {
                 cost: parseFloat(plant.cost.replace('$', '')), // Remove the dollar sign and parse the cost
                 quantity: 1, // Default quantity is 1 when adding a new item
                 description: plant.description,
-                imageUrl: plant.image,
+                image: plant.image,
             };
         
             // Dispatch action to add the item to the cart
