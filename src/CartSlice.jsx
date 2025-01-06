@@ -9,6 +9,8 @@ export const CartSlice = createSlice({
     addItem: (state, action) => {
       const newItem = action.payload;
 
+      console.log("Add new plant: " + newItem);
+
       // Check if the item already exists in the cart using name
       const existingItem = state.items.find(item => item.name === newItem.name);
       if (existingItem) {
@@ -20,7 +22,11 @@ export const CartSlice = createSlice({
     },
 
     removeItem: (state, action) => {
-     
+      const deleteItem = action.payload;
+
+      // Check if the item already exists in the cart using name
+      //const existingItem = state.items.find(item => item.name === deleteItem.name);
+      state.items = state.items.filter((item) => item.name !== deleteItem.name);
     },
 
     increaseQuantity: (state, action) => {
@@ -36,7 +42,12 @@ export const CartSlice = createSlice({
       console.log("Decrease item: " + decreaseItem);
       const existingItem = state.items.find(item => item.name === decreaseItem.name);
       
-      existingItem.quantity = decreaseItem.quantity - 1;
+      if(existingItem.quantity > 1){
+        existingItem.quantity = decreaseItem.quantity - 1;
+      }
+      else{
+        console.log("You cannot remove more items. You need to delete it.");
+      }
     }
   },
 });
