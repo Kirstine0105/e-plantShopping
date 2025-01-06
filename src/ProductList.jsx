@@ -4,7 +4,7 @@ import CartItem from './CartItem';
 import { addItem } from './CartSlice'; // Adjust the import path
 import { useSelector, useDispatch } from 'react-redux';
 function ProductList() {
-    const [showCart, setShowCart] = useState(false); 
+    const [showCart, setShowCart] = useState(false); // State to control the visibility of the Cart page
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
     const [plantsAdded, setPlantsAdded] = useState(new Map());
 
