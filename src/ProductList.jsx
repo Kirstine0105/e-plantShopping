@@ -213,8 +213,7 @@ function ProductList() {
                     cost: "$22"
                 }
             ]
-        }
-    ];
+        }];
     const cartItems = useSelector(state => state.cart.items);
 
 
