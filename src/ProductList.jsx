@@ -212,8 +212,7 @@ function ProductList() {
                     description: "Requires minimal care and adds color to indoor spaces.",
                     cost: "$22"
                 }
-            ]
-        }];
+            ] }];
     const cartItems = useSelector(state => state.cart.items);
 
 
