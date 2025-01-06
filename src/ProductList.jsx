@@ -319,32 +319,37 @@ function ProductList() {
                     </div>
                 </div>
             </div>
-            {!showCart? (
-            <div className="product-grid">
-                {plantsArray.map((category, categoryIndex) =>
-                    <div>
-                        <div className='product-list'>
-                            <h1 className='plant_heading'>{category.category}</h1>
-                        </div>
-                        
-                        <div className='product-list'>
-                        
-                            {category.plants.map((plant, plantIndex) => (
-                                <div className='product-card'> 
-                                    <div className='product-title' key={`${categoryIndex}-${plantIndex}`}>{plant.name}</div>
-                                    <div>
-                                        <img className='product-image img' src={plant.image} alt={plant.name} />
+            {!showCart    
+                ?
+                    (
+                        <div className="product-grid">
+                            {plantsArray.map((category, categoryIndex) =>
+                                <div>
+                                    <div className='product-list'>
+                                        <h1 className='plant_heading'>{category.category}</h1>
                                     </div>
-                                    <div className='product-price' key={`${categoryIndex}-${plantIndex}`}>{plant.cost}</div>
-                                    <div key={`${categoryIndex}-${plantIndex}` }>{plant.description}</div>
-                                    <button className={isPlantAdded(categoryIndex, plantIndex) ? 'product-button added-to-cart' : 'product-button'} onClick={() => addToCart(categoryIndex, plantIndex)}>{isPlantAdded(categoryIndex,plantIndex) ? "Added to Cart" : "Add to Cart"}</button>
+                                    
+                                    <div className='product-list'>
+                                    
+                                        {category.plants.map((plant, plantIndex) => (
+                                            <div className='product-card'> 
+                                                <div className='product-title' key={`${categoryIndex}-${plantIndex}`}>{plant.name}</div>
+                                                <div>
+                                                    <img className='product-image img' src={plant.image} alt={plant.name} />
+                                                </div>
+                                                <div className='product-price' key={`${categoryIndex}-${plantIndex}`}>{plant.cost}</div>
+                                                <div key={`${categoryIndex}-${plantIndex}` }>{plant.description}</div>
+                                                <button className={isPlantAdded(categoryIndex, plantIndex) ? 'product-button added-to-cart' : 'product-button'} onClick={() => addToCart(categoryIndex, plantIndex)}>{isPlantAdded(categoryIndex,plantIndex) ? "Added to Cart" : "Add to Cart"}</button>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
-                            ))}
+                            )}
                         </div>
-                    </div>
-                )}
-            </div>
-            ) :  (<CartItem onContinueShopping={handleContinueShopping}/>)}
+                    )
+                :
+                    (<CartItem onContinueShopping={handleContinueShopping}/>)
+            }
         </div>
     )
 }

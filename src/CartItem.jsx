@@ -9,7 +9,7 @@ const CartItem = ({ onContinueShopping }) => {
 
   
   const handleContinueShopping = (e) => {
-   
+    onContinueShopping(e);
   };
 
   const handleIncrement = (item) => {
@@ -34,9 +34,7 @@ const CartItem = ({ onContinueShopping }) => {
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
-    if(item){
       return item.quantity * item.cost;
-    }
   };
 
   return (
